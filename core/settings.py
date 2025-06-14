@@ -131,4 +131,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #manually Added 
 INSTALLED_APPS += ['corsheaders']
 MIDDLEWARE = ['corsheaders.middleware.CorsMiddleware'] + MIDDLEWARE
-CORS_ALLOW_ALL_ORIGINS = True  # Or specify your frontend origin
+CORS_ALLOW_ALL_ORIGINS = True  
+REST_FRAMEWORK = {
+    "EXCEPTION_HANDLER": "api.exception_handler.custom_exception_handler",
+    "DEFAULT_PAGINATION_CLASS": "api.pagination.CustomPageNumberPagination",
+    "PAGE_SIZE": 10,
+}
