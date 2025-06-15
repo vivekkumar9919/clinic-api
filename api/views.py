@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .pagination import CustomPageNumberPagination
 
-
+from api.utils.response_utils import standard_response
 class DoctorListView(generics.ListAPIView):
     queryset = Doctor.objects.all().order_by('name')  # or any order you prefer
     serializer_class = DoctorSerializer
@@ -32,8 +32,18 @@ class AppointmentListCreateView(generics.ListCreateAPIView):
     
     # save Appointment in database
     def post(self, request):
-        serializer = AppointmentSerializer(data=request.data)
+        serializer = self.get_serializer(data=request.data)
+        print("request body is", serializer)
         if serializer.is_valid():
-            serializer.save()  # saves to DB
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            instance = serializer.save()
+            return standard_response(
+                data=self.get_serializer(instance).data,
+                status_code=201,
+                message="Appointment created successfully"
+            )
+        return standard_response(
+            data=None,
+            status_code=400,
+            message="Invalid data provided",
+            error=serializer.errors
+        )
