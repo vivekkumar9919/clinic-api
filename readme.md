@@ -79,5 +79,38 @@ python manage.py migrate
 - Simple and scalable project layout.
 
 ---
+## 🔗 API Endpoints
 
-Happy Coding! 💻
+| Method | Endpoint             | Description                         |
+|--------|----------------------|-------------------------------------|
+| GET    | `/api/doctors/`      | List doctors (paginated)            |
+| GET    | `/api/appointments/` | List appointments with filters      |
+| POST   | `/api/appointments/` | Create a new appointment            |
+
+---
+
+### 📌 Query Parameters for `/api/appointments/`
+
+You can filter and paginate appointments using the following query parameters:
+
+| Parameter   | Type   | Description                        |
+|-------------|--------|------------------------------------|
+| `doctor`    | int    | Doctor ID to filter appointments   |
+| `date`      | string | Appointment date in `YYYY-MM-DD`   |
+| `page`      | int    | Page number (for pagination)       |
+| `page_size` | int    | Number of items per page (max limit set in code) |
+
+---
+
+### 📤 Request Body for `POST /api/appointments/`
+
+Use the following JSON format to create a new appointment:
+
+```json
+{
+  "patient_name": "Vivek",
+  "doctor": 1,
+  "date": "2025-06-15",
+  "time_slot": "1:30:00",
+  "status": "Scheduled"
+}
